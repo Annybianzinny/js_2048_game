@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Game */
+import Game from '../modules/Game.class.js';
 
 const game = new Game();
 
@@ -11,6 +11,8 @@ const cells = document.querySelectorAll('.field-cell');
 const startMessage = document.querySelector('.message-start');
 const winMessage = document.querySelector('.message-win');
 const loseMessage = document.querySelector('.message-lose');
+
+let firstMove = false;
 
 function render() {
   const board = game.getState();
@@ -45,20 +47,17 @@ button.addEventListener('click', () => {
   if (game.getStatus() === 'idle') {
     game.start();
 
-    button.textContent = 'Restart';
-    button.classList.remove('start');
-    button.classList.add('restart');
-
     startMessage.classList.add('hidden');
   } else {
     game.restart();
+
+    firstMove = false;
 
     button.textContent = 'Start';
     button.classList.remove('restart');
     button.classList.add('start');
 
     startMessage.classList.remove('hidden');
-
     winMessage.classList.add('hidden');
     loseMessage.classList.add('hidden');
   }
@@ -90,6 +89,14 @@ document.addEventListener('keydown', (e) => {
 
     default:
       return;
+  }
+
+  if (!firstMove) {
+    firstMove = true;
+
+    button.textContent = 'Restart';
+    button.classList.remove('start');
+    button.classList.add('restart');
   }
 
   render();

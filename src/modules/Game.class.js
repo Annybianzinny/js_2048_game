@@ -198,4 +198,4 @@ class Game {
   }
 }
 
-window.Game = Game;
+export default Game;
